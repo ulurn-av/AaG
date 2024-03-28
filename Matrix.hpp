@@ -45,11 +45,15 @@ public:
 
     // Доступ к элементу (i, j)
     T& operator()(size_t i, size_t j){
+        if(i >= rows || j >= cols)
+            throw out_of_range("Index out of the range");
         return data[i][j];
     };
 
     // Доступ к элементу (i, j) для константной матрицы
     const T& operator()(size_t i, size_t j) const {
+        if(i >= rows || j >= cols)
+            throw out_of_range("Index out of the range");
         return data[i][j];
     };
 
@@ -86,6 +90,8 @@ public:
 
     // Сложение матриц
     Matrix<T> operator+(const Matrix<T>& other) const{
+        if(other.rows != rows || other.cols != cols)
+            throw invalid_argument("Matrices have different dimensions");
         Matrix<T> res = Matrix(this->data);
         for(size_t i = 0; i < rows; ++i){
             for(size_t j = 0; j < cols; ++j){
@@ -97,6 +103,8 @@ public:
 
     // Вычитание матриц
     Matrix<T> operator-(const Matrix<T>& other) const{
+        if(other.rows != rows || other.cols != cols)
+            throw invalid_argument("Matrices have different dimensions");
         Matrix<T> res = Matrix(this->data);
         for(size_t i = 0; i < rows; ++i){
             for(size_t j = 0; j < cols; ++j){
@@ -119,6 +127,8 @@ public:
 
     // Умножение матриц
     Matrix<T> operator*(const Matrix<T>& other) const{
+        if(cols != other.rows)
+            throw invalid_argument("The number of columns of the first matrix must match the number of rows of the second matrix");
         Matrix<T> res(this->rows, other.cols);
         for(int i = 0; i < this->rows; ++i){
             for(int j = 0; j < other.cols; ++j){
@@ -143,6 +153,9 @@ public:
 
     // Получение подматрицы, начиная с позиции (row, col) и размерами (rows, cols)
     Matrix<T> sub_matrix(size_t row, size_t col, size_t rows, size_t cols) const{
+        if(row >= this->rows || row+rows >= this->rows || col >= this->cols || col+cols >= this->cols)
+            throw out_of_range("Index out of the range");
+
         Matrix<T> res = Matrix(rows, cols);
         for(size_t i = 0; i < rows; ++i){
             for(size_t j = 0; j < cols; ++j){
@@ -155,9 +168,8 @@ public:
     // Создание единичной матрицы
     static Matrix<T> eye(size_t n){
         Matrix<T> res = Matrix(n, n);
-        for(size_t i = 0; i < n; ++i){
+        for(size_t i = 0; i < n; ++i)
             res(i, i) = 1;
-        }
         return res;
     };
 
@@ -168,6 +180,8 @@ public:
 
     // Конкатенация матриц по горизонтали
     Matrix<T> horizontal_concatenate(const Matrix<T>& other) const{
+        if(rows != other.rows)
+            throw invalid_argument("The number of rows of the first matrix must match the number of rows of the second matrix");
         Matrix<T> res = Matrix(rows, cols+other.cols);
         for(size_t i = 0; i < rows; ++i){
             for(size_t j = 0; j < cols; ++j){
@@ -184,6 +198,8 @@ public:
 
     // Конкатенация матриц по вертикали
     Matrix<T> vertical_concatenate(const Matrix<T>& other) const{
+        if(cols != other.cols)
+            throw invalid_argument("The number of cols of the first matrix must match the number of cols of the second matrix");
         Matrix<T> res = Matrix(rows+other.rows, cols);
         for(size_t i = 0; i < rows; ++i){
             for(size_t j = 0; j < cols; ++j){
