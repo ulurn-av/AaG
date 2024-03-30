@@ -5,6 +5,7 @@
 #include "Matrix.hpp"
 
 int main(){
+
     Matrix<int> A(5, 5);
     for(int i = 0; i < 5; ++i){
         for(int j = 0; j < 5; ++j){
@@ -47,7 +48,7 @@ int main(){
 
     // SubMatrix
     cout << A << endl;
-    cout << A.sub_matrix(1, 1, 3, 3) << endl;
+    cout << A.submatrix(1, 1, 3, 3) << endl;
 
     // eye and zeros
     cout << A << endl;
@@ -98,6 +99,23 @@ int main(){
     cout << G << endl;
     cout << F.vertical_concatenate(G) << endl;
 
+    // Concatenation
+    vector<vector<int> > y(10, vector<int>(5, 1));
+    Matrix<int> Y(y);
+    cout << Y << endl;
+    Matrix<int> T(10, 3);
+    for(int i = 0; i < 10; ++i){
+        for(int j = 0; j < 3; ++j){
+            T(i, j) = 10;
+        }
+    }
+    cout << T.horizontal_concatenate(Y) << endl;
+    Matrix<int> W(1, 8);
+    for(int i = 0; i < 8; ++i)
+        W(0, i) = i;
+    cout << T.horizontal_concatenate(Y).vertical_concatenate(W) << endl;
+    cout << W.vertical_concatenate(T.horizontal_concatenate(Y)) << endl;
+
     // Arithmetic operations
     Matrix<int> A1 = Matrix<int>::eye(3);
     A1 = A1*3;
@@ -119,5 +137,6 @@ int main(){
     A3(2, 0) = 3;
     cout << A3 << endl;
     cout << A1*A3 << endl;
+
     return 0;
 }
