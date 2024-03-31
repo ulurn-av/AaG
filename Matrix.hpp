@@ -11,7 +11,10 @@ template<typename T>
 class Matrix {
 public:
     // Конструктор пустой матрицы
-    Matrix();
+    Matrix(){
+        this->rows = 0;
+        this->cols = 0;
+    };
 
     // Конструктор матрицы заданных размеров
     Matrix(size_t rows, size_t cols){
