@@ -145,9 +145,9 @@ public:
 
     // Транспонирование матрицы
     Matrix<T> transpose() const{
-        Matrix<T> res = Matrix(rows, cols);
-        for(size_t i = 0; i < rows; ++i){
-            for(size_t j = 0; j < cols; ++j){
+        Matrix<T> res = Matrix(cols, rows);
+        for(size_t i = 0; i < cols; ++i){
+            for(size_t j = 0; j < rows; ++j){
                 res.data[i][j] = this->data[j][i];
             }
         }
