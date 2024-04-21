@@ -62,12 +62,12 @@ public:
 
     // Получение количества строк
     size_t get_rows() const{
-        return data.size();
+        return rows;
     };
 
     // Получение количества столбцов
     size_t get_cols() const{
-        return data[0].size();
+        return cols;
     };
 
     // Сравнение матриц
