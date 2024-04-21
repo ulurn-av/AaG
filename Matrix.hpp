@@ -156,7 +156,7 @@ public:
 
     // Получение подматрицы, начиная с позиции (row, col) и размерами (rows, cols)
     Matrix<T> submatrix(size_t row, size_t col, size_t rows, size_t cols) const{
-        if(row >= this->rows || row+rows >= this->rows || col >= this->cols || col+cols >= this->cols)
+        if(row+rows > this->rows || col+cols > this->cols)
             throw out_of_range("Index out of the range");
 
         Matrix<T> res = Matrix(rows, cols);
