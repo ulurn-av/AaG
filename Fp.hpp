@@ -31,7 +31,8 @@ public:
         return Space;
     };
     Fp<p> operator/(const Fp<p>& other) const{
-        Fp<p> Space(this->value * mod_inverse(other.value));
+        int inv = mod(mod_inverse(other.value));
+        Fp<p> Space(this->value * inv);
         return Space;
     };
     Fp<p> operator-() const{
@@ -70,12 +71,23 @@ public:
 private:
     int value;
 
-    int mod(int x){
+    long long mod(long long x){
         return ((x%p)+p)%p;
     }
 
-    int mod_inverse(int x){
-        return (int)pow(x, p - 2);
+    long long binpow(long long a, long long n) {
+        if (n == 0)
+            return 1;
+        if (n % 2 == 1)
+            return mod(binpow(a, n - 1) * a);
+        else {
+            long long b = mod(binpow(a, n / 2));
+            return mod(b * b);
+        }
+    }
+
+    long long mod_inverse(long long x){
+        return binpow(x, p - 2);
     }
 };
 
