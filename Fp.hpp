@@ -31,7 +31,9 @@ public:
         return Space;
     };
     Fp<p> operator/(const Fp<p>& other) const{
-        int inv = mod(mod_inverse(other.value));
+        int inv = mod_inverse(other.value);
+        if (inv == 0)
+            throw invalid_argument("This element has no inverse element in this field!");
         Fp<p> Space(this->value * inv);
         return Space;
     };
@@ -54,8 +56,10 @@ public:
         return *this;
     };
     Fp<p>& operator/=(const Fp<p>& other){
-        Fp<p> inv(mod_inverse(other.value));
-        this->value = mod(this->value*inv.value);
+        int inv = mod_inverse(other.value);
+        if (inv == 0)
+            throw invalid_argument("This element has no inverse element in this field!");
+        this->value = mod(this->value*inv);
         return *this;
     };
 
@@ -71,23 +75,16 @@ public:
 private:
     int value;
 
-    long long mod(long long x){
+    int mod(int x) const{
         return ((x%p)+p)%p;
     }
 
-    long long binpow(long long a, long long n) {
-        if (n == 0)
-            return 1;
-        if (n % 2 == 1)
-            return mod(binpow(a, n - 1) * a);
-        else {
-            long long b = mod(binpow(a, n / 2));
-            return mod(b * b);
+    int mod_inverse(int x) const{
+        for(int i = 0; i < p; ++i){
+            if(mod(x*i) == 1)
+                return i;
         }
-    }
-
-    long long mod_inverse(long long x){
-        return binpow(x, p - 2);
+        return 0;
     }
 };
 

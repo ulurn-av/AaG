@@ -6,6 +6,14 @@
 
 int main(){
 
+    Fp<7> t1(1633411);
+    Fp<7> t2(1633410);
+
+    cout << (t1 / t2) << endl;
+
+    cout << t1 << endl;
+    cout << t2 << endl;
+
     Fp<3> a(2);
     Fp<3> b(-2);
     cout << a << " " << b << endl;
