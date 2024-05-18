@@ -217,6 +217,17 @@ public:
         return res;
     };
 
+    vector<T> get_col(size_t col) const {
+        if (col >= this->cols)
+            throw out_of_range("Column index out of range");
+
+        vector<T> column(this->rows);
+        for (size_t i = 0; i < this->rows; ++i) {
+            column[i] = this->data[i][col];
+        }
+        return column;
+    }
+
     // «Красивый» вывод матрицы
     template <typename Tstream>
     friend ostream &operator<<(ostream &out, const Matrix<Tstream>& m);
